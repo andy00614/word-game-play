@@ -289,6 +289,11 @@ button:hover {
   background-color: #0062cc;
 }
 
+a {
+  color: blue;
+  cursor: pointer;
+}
+
 .footer {
   margin-top: 10px;
   display: inline-flex;

@@ -353,16 +353,16 @@ function receiveMessage(event) {
   const data = event.data;
   if (data.type === "score") {
     console.log("Received score:", data);
-    // setScore(data.score)
-    // remove connect button then add a address
     const connectBtn = document.querySelector('#connect')
     connectBtn.remove()
-    const address = document.createElement('div')
-    address.innerHTML = data.address
+    document.querySelector('#address').innerText = data.address
     eKey = data.eKey
-    document.querySelector('#address').appendChild(address)
   }
 }
+
+document.querySelector('#address').addEventListener('click', () => {
+  window.open(`${URL}/account?id=${eKey}`, "_blank");
+})
 
 window.addEventListener("message", receiveMessage, false);
 
