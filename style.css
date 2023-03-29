@@ -298,3 +298,10 @@ button:hover {
 .footer button {
   margin-left: 16px;
 }
+
+#scoreCount {
+  color: rgb(54, 224, 54);
+  font-weight: bold;
+  margin-left: 8px;
+  font-size: 24px;
+}

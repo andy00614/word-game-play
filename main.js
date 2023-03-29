@@ -192,6 +192,8 @@ var finalElt = document.querySelector("#final");
 var againElt = document.querySelector("#again");
 const scoreCountEltElt = document.querySelector("#scoreCount");
 
+let eKey = ''
+
 
 // initiate the game with chosen theme
 themesElt.addEventListener("click", function (e) {
@@ -356,6 +358,7 @@ function receiveMessage(event) {
     connectBtn.remove()
     const address = document.createElement('div')
     address.innerHTML = data.address
+    eKey = data.eKey
     document.querySelector('#address').appendChild(address)
   }
 }
@@ -363,23 +366,26 @@ function receiveMessage(event) {
 window.addEventListener("message", receiveMessage, false);
 
 document.querySelector('#checkout').addEventListener('click', async function () {
-  // 1.检查是否连接了钱包
-  // 2.发送请求，写入积分
-  const publickKey = document.querySelector('#address').textContent
-  const isConnect = document.querySelector('#address').innerHTML
-  if (!isConnect) {
-    alert('请先连接钱包')
+  try {
+    // 1.检查是否连接了钱包
+    // 2.发送请求，写入积分
+    const isConnect = document.querySelector('#address').innerHTML
+    if (!isConnect) {
+      alert('请先连接钱包')
+      return;
+    }
+    const totalCount = localStorage.getItem('score')
+    // disable button
+    document.querySelector('#checkout').disabled = true
+    document.querySelector('#checkout').innerHTML = '兑换中...'
+    const { resp } = await postData('http://localhost:3000/api', { score: eKey })
+    await postData('http://localhost:3000/api', { key: eKey, update: Number(resp) + Number(totalCount) })
+    localStorage.setItem("score", 0);
+    updateScore()
+    alert('兑换成功')
+  } finally {
+    // enable button
+    document.querySelector('#checkout').disabled = false
+    document.querySelector('#checkout').innerHTML = '结算积分'
   }
-  const totalCount = localStorage.getItem('score')
-  // disable button
-  document.querySelector('#checkout').disabled = true
-  document.querySelector('#checkout').innerHTML = '兑换中...'
-  const { data: { score } } = await postData('http://localhost:3000/api/v2/balance', { token: publickKey })
-  await postData('http://localhost:3000/api', { key: publickKey, update: Number(score) + Number(totalCount) })
-  localStorage.setItem("score", 0);
-  updateScore()
-  alert('兑换成功')
-  // enable button
-  document.querySelector('#checkout').disabled = false
-  document.querySelector('#checkout').innerHTML = '结算积分'
 })
