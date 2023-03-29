@@ -2,6 +2,7 @@ import './style.css'
 
 // other themes to add ?
 // bigger memory?
+const URL = `https://wd-baas.vercel.app`
 
 function postData(url = '', data = {}) {
   return fetch(url, {
@@ -325,7 +326,7 @@ function setLocalStorage(num) {
 document.querySelector('#connect').addEventListener('click', function () {
   // 连接钱包
   // 暂时不跳转，用来看是否能接受消息
-  const walletUrl = "http://localhost:3000/account";
+  const walletUrl = `${URL}/account`;
   const walletWindow = window.open(walletUrl, "_blank");
 
   const getScore = { type: "getScore" };
@@ -378,8 +379,8 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    const { resp } = await postData('http://localhost:3000/api', { score: eKey })
-    await postData('http://localhost:3000/api', { key: eKey, update: Number(resp) + Number(totalCount) })
+    const { resp } = await postData(`${URL}/api`, { score: eKey })
+    await postData(`${URL}/api`, { key: eKey, update: Number(resp) + Number(totalCount) })
     localStorage.setItem("score", 0);
     updateScore()
     alert('兑换成功')
