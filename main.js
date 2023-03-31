@@ -383,8 +383,7 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     const { resp } = await postData(`${URL}/api`, { type: 'addScore', val1: eKey, val2: Number(totalCount) })
     updateScore()
     alert(resp)
-    if (resp === 'Success')
-      localStorage.setItem("score", 0);
+    localStorage.setItem("score", 0);
   } finally {
     // enable button
     document.querySelector('#checkout').disabled = false
