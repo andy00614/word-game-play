@@ -379,11 +379,12 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    const { resp } = await postData(`${URL}/api`, { type: 'score', val1: eKey })
-    await postData(`${URL}/api`, { type: 'update', val1: eKey, val2: Number(resp) + Number(totalCount) })
-    localStorage.setItem("score", 0);
+    // const { resp } = await postData(`${URL}/api`, { type: 'score', val1: eKey })
+    const { resp } = await postData(`${URL}/api`, { type: 'addScore', val1: eKey, val2: Number(totalCount) })
     updateScore()
-    alert('兑换成功')
+    alert(resp)
+    if (resp === 'Success')
+      localStorage.setItem("score", 0);
   } finally {
     // enable button
     document.querySelector('#checkout').disabled = false
