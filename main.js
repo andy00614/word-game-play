@@ -380,7 +380,7 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
     const { resp } = await postData(`${URL}/api`, { type: 'score', val1: eKey })
-    await postData(`${URL}/api`, { key: 'update', val1: eKey, val2: Number(resp) + Number(totalCount) })
+    await postData(`${URL}/api`, { type: 'update', val1: eKey, val2: Number(resp) + Number(totalCount) })
     localStorage.setItem("score", 0);
     updateScore()
     alert('兑换成功')
