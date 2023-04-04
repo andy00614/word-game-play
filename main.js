@@ -323,24 +323,56 @@ function setLocalStorage(num) {
   localStorage.setItem("score", total);
 }
 
-document.querySelector('#connect').addEventListener('click', function () {
-  // 连接钱包
-  // 暂时不跳转，用来看是否能接受消息
-  const walletUrl = `${URL}/account`;
-  const walletWindow = window.open(walletUrl, "_blank");
+// 点击跳转到钱包页面
+// document.querySelector('#connect').addEventListener('click', function () {
+//   // 连接钱包
+//   // 暂时不跳转，用来看是否能接受消息
+//   const walletUrl = `${URL}/account`;
+//   const walletWindow = window.open(walletUrl, "_blank");
 
-  const getScore = { type: "getScore" };
+//   const getScore = { type: "getScore" };
+//   const postMessage = () => {
+//     setTimeout(() => {
+//       walletWindow.postMessage(getScore, walletUrl);
+//       const isConnect = document.querySelector('#address').innerHTML
+//       if (!isConnect) {
+//         postMessage()
+//       }
+//     }, 600);
+//   }
+//   postMessage()
+// });
+
+// 点击ifream跳转到钱包页面
+const popup = document.getElementById('popup');
+const iframe = document.getElementById('info-iframe');
+const closePopupButton = document.getElementById('close-popup');
+const showDialog = () => {
+  popup.style.display = 'flex';
+  popup.style.flexDirection = 'column';
+}
+const hideDialog = () => {
+  popup.style.display = 'none';
+}
+document.querySelector('#connect').addEventListener('click', function () {
+  showDialog();
   const postMessage = () => {
     setTimeout(() => {
-      walletWindow.postMessage(getScore, walletUrl);
+      iframe.contentWindow.postMessage({ type: 'getScore' }, 'https://wd-baas.vercel.app');
       const isConnect = document.querySelector('#address').innerHTML
       if (!isConnect) {
         postMessage()
       }
     }, 600);
   }
+  iframe.contentWindow.postMessage({ type: 'getScore' }, 'https://wd-baas.vercel.app');
   postMessage()
+})
+closePopupButton.addEventListener('click', () => {
+  hideDialog()
 });
+
+// ****** //
 
 function setScore(score) {
   const scoreDOM = document.querySelector('#scoreCount')

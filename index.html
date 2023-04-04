@@ -7,6 +7,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vite App</title>
   <style>
+    #show-popup {
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 10px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    #popup {
+      display: none;
+      position: fixed;
+      left: 50%;
+      top: 30%;
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #close-popup {
+      background-color: #007BFF;
+      border: none;
+      color: white;
+      padding: 8px 16px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 14px;
+      margin: 10px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
   </style>
 </head>
 
@@ -17,7 +59,7 @@
     </header>
     <div class="main">
       <div>
-        <a id="address" style="word-wrap: break-word;"></a>
+        <a id="address" style="word-wrap: break-word; text-decoration: underline;"></a>
         <button id="connect">Connect wallet</button>
       </div>
       <div>
@@ -53,6 +95,8 @@
       </div>
     </div>
 
+    <div></div>
+
 
     <footer>
       <p>Created by <a href="https://remybeumier.be" target="_blank">Rémy Beumier</a></p>
@@ -84,6 +128,12 @@
     </section>
 
   </div>
+
+  <div id="popup">
+    <iframe id="info-iframe" src="https://wd-baas.vercel.app/account" width="600" height="400"></iframe>
+    <button id="close-popup">关闭弹窗</button>
+  </div>
+
   <script type="module" src="/main.js"></script>
 </body>
 
