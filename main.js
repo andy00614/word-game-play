@@ -3,6 +3,7 @@ import './style.css'
 // other themes to add ?
 // bigger memory?
 const URL = `https://wd-baas.vercel.app`
+// const URL = `http://localhost:3005`
 
 function postData(url = '', data = {}) {
   return fetch(url, {
@@ -14,28 +15,6 @@ function postData(url = '', data = {}) {
   })
     .then(response => response.json())
     .catch(error => { throw error });
-}
-function sendRequest(method, url, data, callback) {
-  const xhr = new XMLHttpRequest();
-
-  xhr.open(method, url, true);
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        callback(null, JSON.parse(xhr.responseText));
-      } else {
-        callback(new Error(`Request failed with status ${xhr.status}`));
-      }
-    }
-  };
-
-  if (data && (method === 'POST' || method === 'PUT')) {
-    xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify(data));
-  } else {
-    xhr.send();
-  }
 }
 
 
@@ -323,26 +302,6 @@ function setLocalStorage(num) {
   localStorage.setItem("score", total);
 }
 
-// 点击跳转到钱包页面
-// document.querySelector('#connect').addEventListener('click', function () {
-//   // 连接钱包
-//   // 暂时不跳转，用来看是否能接受消息
-//   const walletUrl = `${URL}/account`;
-//   const walletWindow = window.open(walletUrl, "_blank");
-
-//   const getScore = { type: "getScore" };
-//   const postMessage = () => {
-//     setTimeout(() => {
-//       walletWindow.postMessage(getScore, walletUrl);
-//       const isConnect = document.querySelector('#address').innerHTML
-//       if (!isConnect) {
-//         postMessage()
-//       }
-//     }, 600);
-//   }
-//   postMessage()
-// });
-
 // 点击ifream跳转到钱包页面
 const popup = document.getElementById('popup');
 const iframe = document.getElementById('info-iframe');
@@ -358,14 +317,14 @@ document.querySelector('#connect').addEventListener('click', function () {
   showDialog();
   const postMessage = () => {
     setTimeout(() => {
-      iframe.contentWindow.postMessage({ type: 'getScore' }, 'https://wd-baas.vercel.app');
+      iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
       const isConnect = document.querySelector('#address').innerHTML
       if (!isConnect) {
         postMessage()
       }
     }, 600);
   }
-  iframe.contentWindow.postMessage({ type: 'getScore' }, 'https://wd-baas.vercel.app');
+  iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
   postMessage()
 })
 closePopupButton.addEventListener('click', () => {
@@ -411,11 +370,10 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    // const { resp } = await postData(`${URL}/api`, { type: 'score', val1: eKey })
-    const { resp } = await postData(`${URL}/api`, { type: 'addScore', val1: eKey, val2: Number(totalCount) })
-    updateScore()
-    alert(resp)
+    const { resp } = await postData(`${URL}/api/wallet/transfer`, { type: 'TransferPoints', addressId: isConnect, amount: Number(totalCount) })
+    alert('Success')
     localStorage.setItem("score", 0);
+    updateScore()
   } finally {
     // enable button
     document.querySelector('#checkout').disabled = false
