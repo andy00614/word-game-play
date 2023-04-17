@@ -3,7 +3,7 @@ import './style.css'
 // other themes to add ?
 // bigger memory?
 const URL = `https://wd-baas.vercel.app`
-// const URL = `http://localhost:3005`
+// const URL = `http://localhost:3001`
 
 function postData(url = '', data = {}) {
   return fetch(url, {
@@ -14,7 +14,9 @@ function postData(url = '', data = {}) {
     body: JSON.stringify(data)
   })
     .then(response => response.json())
-    .catch(error => { throw error });
+    .catch(error => {
+      throw error
+    });
 }
 
 
@@ -321,6 +323,8 @@ document.querySelector('#connect').addEventListener('click', function () {
       const isConnect = document.querySelector('#address').innerHTML
       if (!isConnect) {
         postMessage()
+      } else {
+        alert('已连接钱包')
       }
     }, 600);
   }
@@ -370,9 +374,15 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    const { resp } = await postData(`${URL}/api/wallet/transfer`, { type: 'TransferPoints', addressId: isConnect, amount: Number(totalCount) })
-    alert('Success')
+    console.log(isConnect)
+    const resp = await postData(`${URL}/api/wallet/transfer`, { type: 'TransferPoints', addressId: isConnect, amount: Number(totalCount) })
+    console.log(resp)
+    if (resp.message) {
+      alert(resp.message)
+      return;
+    }
     localStorage.setItem("score", 0);
+    alert('兑换成功')
     updateScore()
   } finally {
     // enable button
