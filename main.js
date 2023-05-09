@@ -2,8 +2,9 @@ import './style.css'
 
 // other themes to add ?
 // bigger memory?
-const URL = `https://wd-baas.vercel.app`
-// const URL = `http://localhost:3001`
+// const URL = `https://wd-baas.vercel.app`
+const URL = `http://8.219.157.52:5002`
+const ServerUrl = `http://8.219.157.52:8080`
 
 function postData(url = '', data = {}) {
   return fetch(url, {
@@ -337,12 +338,6 @@ closePopupButton.addEventListener('click', () => {
 
 // ****** //
 
-function setScore(score) {
-  const scoreDOM = document.querySelector('#scoreCount')
-  scoreDOM.innerHTML = score
-}
-
-
 function receiveMessage(event) {
   // if (event.origin !== "https://your-wallet-page-domain.com") return;
   const data = event.data;
@@ -374,10 +369,8 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    console.log(isConnect)
-    const resp = await postData(`${URL}/api/wallet/transfer`, { type: 'TransferPoints', addressId: isConnect, amount: Number(totalCount) })
-    console.log(resp)
-    if (resp.message) {
+    const resp = await postData(`${ServerUrl}/api/withdraw`, { address: isConnect, amt: Number(totalCount), encryptionKey: eKey })
+    if (resp.code !== 200) {
       alert(resp.message)
       return;
     }
