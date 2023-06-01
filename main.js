@@ -369,13 +369,13 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    const resp = await postData(`${ServerUrl}/api/withdraw`, { address: isConnect, amt: Number(totalCount), encryptionKey: eKey })
+    const resp = await postData(`${ServerUrl}/blockchain/withdraw`, { address: isConnect, amt: Number(totalCount), encryptionKey: eKey })
     if (resp.code !== 200) {
       alert(resp.message)
       return;
     }
     localStorage.setItem("score", 0);
-    alert('兑换成功')
+    alert('已提交提现申请')
     updateScore()
   } finally {
     // enable button
