@@ -1,16 +1,23 @@
 import './style.css'
+import Jsencrypt from 'jsencrypt'
+
+const encodeFactory = new Jsencrypt()
+encodeFactory.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUFa2cEcTlGbN6MTd2eFut/lo4G4GB46CQjTq3Ah2au8rbY3crBQypQqXKZDqz+JBCGklP3XrfxVydrAXuVuKw7qnK3AiyD++l4K7gJaJpYXeMAT0mlBC/XEav2bZRB6p911DqW6vrrQ3j6sGbEldiDEYBcpZNSa2BvgNrsSrnglfiiXTETWGIy8ZO5+WKJBj3TSB/M6ywdALZIZY9mONHtA2YpNf/9mFdNf9D/VCUq9ShWSbnl/YlG6gX2Qezlw97hUvN5jHLH4A+9skO/SY9PcyFl/gTx0eW9CWoJSO3JY3RfqLnT0lHmcwEeYYPFwobS0Iv/AxKtfCsoyjj9XEwIDAQAB')
 
 // other themes to add ?
 // bigger memory?
 // const URL = `https://wd-baas.vercel.app`
-const URL = `http://8.219.157.52:5002`
+const URL = `http://8.219.157.52:5005`
 const ServerUrl = `http://8.219.157.52:8080`
 
 function postData(url = '', data = {}) {
+  const authorization = encodeFactory.encrypt(eKey + '_' + Date.now())
+  console.log(authorization)
   return fetch(url, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': authorization
     },
     body: JSON.stringify(data)
   })
@@ -179,13 +186,30 @@ let eKey = ''
 
 
 // initiate the game with chosen theme
-themesElt.addEventListener("click", function (e) {
-  if (e.target.classList.contains("themes")) {
-    activateTheme(e.target.id);
-    preElt.classList.add("hidden");
-  }
-});
+// themesElt.addEventListener("click", function (e) {
+//   if (e.target.classList.contains("themes")) {
+//     activateTheme(e.target.id);
+//     preElt.classList.add("hidden");
+//   }
+// });
 
+// 检查钱包是否链接
+const updateWalletStatus = () => {
+  // 检查url上search参数是否有publicKey,如果有则说明钱包已经链接
+  const urlParams = new URLSearchParams(window.location.search);
+  const publicKey = urlParams.get('publicKey');
+  const token = urlParams.get('eKey');
+  if (publicKey && token) {
+    const connectBtn = document.querySelector('#connect')
+    connectBtn.remove()
+    document.querySelector('#address').innerText = publicKey
+    eKey = token
+  }
+}
+updateWalletStatus()
+
+
+activateTheme('pokemon');
 
 function updateScore() {
   const score = localStorage.getItem('score') || 0;
@@ -278,13 +302,14 @@ function resetGame() {
   score = 0;
   time = 0;
   postElt.classList.add("hidden");
-  preElt.classList.remove("hidden");
+  // preElt.classList.remove("hidden");
   for (let i = 0; i < 20; i++) {
     boxElts[i].classList.add("play");
     boxElts[i].firstChild.classList.add("hidden");
   }
   timeElt.textContent = time;
   scoreElt.textContent = score;
+  activateTheme('pokemon');
 }
 
 // handle focus of the page
@@ -316,21 +341,34 @@ const showDialog = () => {
 const hideDialog = () => {
   popup.style.display = 'none';
 }
-document.querySelector('#connect').addEventListener('click', function () {
-  showDialog();
-  const postMessage = () => {
-    setTimeout(() => {
-      iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
-      const isConnect = document.querySelector('#address').innerHTML
-      if (!isConnect) {
-        postMessage()
-      } else {
-        alert('已连接钱包')
-      }
-    }, 600);
-  }
-  iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
-  postMessage()
+
+
+const connectWallet = () => {
+  const url = URL + '/authorization'
+  const jumpURL = new window.URL(url);
+  jumpURL.searchParams.append('redirect_uri', location.origin)
+  jumpURL.searchParams.append('game_name', 'Memory')
+  window.open(jumpURL, '_self')
+}
+
+
+document.querySelector('#connect')?.addEventListener('click', function () {
+  connectWallet()
+  // 以前的逻辑
+  // showDialog();
+  // const postMessage = () => {
+  //   setTimeout(() => {
+  //     iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
+  //     const isConnect = document.querySelector('#address').innerHTML
+  //     if (!isConnect) {
+  //       postMessage()
+  //     } else {
+  //       alert('已连接钱包')
+  //     }
+  //   }, 600);
+  // }
+  // iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
+  // postMessage()
 })
 closePopupButton.addEventListener('click', () => {
   hideDialog()
@@ -350,8 +388,10 @@ function receiveMessage(event) {
   }
 }
 
-document.querySelector('#address').addEventListener('click', () => {
-  window.open(`${URL}/account?id=${eKey}`, "_blank");
+document.querySelector('#address')?.addEventListener('click', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const publicKey = urlParams.get('publicKey');
+  window.open(`${URL}/account/${publicKey}`, "_blank");
 })
 
 window.addEventListener("message", receiveMessage, false);
