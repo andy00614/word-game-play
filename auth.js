@@ -30,7 +30,7 @@ export const updateWalletStatusForURL = () => {
 }
 
 export const connectWalletForURL = () => {
-  const url = URL + '/authorization&type=iframe'
+  const url = URL + '/authorization'
   const jumpURL = new window.URL(url);
   jumpURL.searchParams.append('redirect_uri', location.origin)
   jumpURL.searchParams.append('game_name', 'Memory')

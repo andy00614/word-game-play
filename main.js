@@ -335,8 +335,8 @@ const hideDialog = () => {
 
 
 document.querySelector('#connect')?.addEventListener('click', function () {
-  // connectWalletForURL()
-  connectWalletForIframe()
+  connectWalletForURL()
+  // connectWalletForIframe()
   // 以前的逻辑
   // showDialog();
   // const postMessage = () => {
@@ -373,12 +373,8 @@ function receiveMessage(event) {
 
 document.querySelector('#address')?.addEventListener('click', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const pKey = urlParams.get('publicKey');
-  if (pKey)
-    window.open(`${URL}/account/${pKey}`, "_blank");
-  else {
-    window.open(`${URL}/account/${window.publicKey}`, "_blank");
-  }
+  const pKey = document.querySelector('#address').innerHTML
+  window.open(`${URL}/account/${pKey}`, "_blank");
 })
 
 window.addEventListener("message", receiveMessage, false);
