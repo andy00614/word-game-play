@@ -1,4 +1,4 @@
-import { connectWalletForURL, updateWalletStatusForURL } from './auth'
+import { connectWalletForIframe, connectWalletForURL, updateWalletStatusForURL } from './auth'
 import './style.css'
 import Jsencrypt from 'jsencrypt'
 
@@ -184,6 +184,7 @@ var againElt = document.querySelector("#again");
 const scoreCountEltElt = document.querySelector("#scoreCount");
 
 var eKey = ''
+var publicKey = ''
 
 
 // initiate the game with chosen theme
@@ -334,7 +335,8 @@ const hideDialog = () => {
 
 
 document.querySelector('#connect')?.addEventListener('click', function () {
-  connectWalletForURL()
+  // connectWalletForURL()
+  connectWalletForIframe()
   // 以前的逻辑
   // showDialog();
   // const postMessage = () => {
@@ -371,8 +373,12 @@ function receiveMessage(event) {
 
 document.querySelector('#address')?.addEventListener('click', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const publicKey = urlParams.get('publicKey');
-  window.open(`${URL}/account/${publicKey}`, "_blank");
+  const pKey = urlParams.get('publicKey');
+  if (pKey)
+    window.open(`${URL}/account/${pKey}`, "_blank");
+  else {
+    window.open(`${URL}/account/${window.publicKey}`, "_blank");
+  }
 })
 
 window.addEventListener("message", receiveMessage, false);
