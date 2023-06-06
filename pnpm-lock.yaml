@@ -1,10 +1,12 @@
 lockfileVersion: 5.4
 
 specifiers:
+  crypto-js: ^4.1.1
   jsencrypt: ^3.3.2
   vite: ^4.2.0
 
 dependencies:
+  crypto-js: 4.1.1
   jsencrypt: 3.3.2
 
 devDependencies:
@@ -209,6 +211,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /esbuild/0.17.12:
     resolution: {integrity: sha512-bX/zHl7Gn2CpQwcMtRogTTBf9l1nl+H6R8nUbjk+RuKqAE3+8FDulLA+pHvX7aA7Xe07Iwa+CWvy9I8Y2qqPKQ==}

@@ -1,3 +1,4 @@
+import { connectWalletForURL, updateWalletStatusForURL } from './auth'
 import './style.css'
 import Jsencrypt from 'jsencrypt'
 
@@ -182,7 +183,7 @@ var finalElt = document.querySelector("#final");
 var againElt = document.querySelector("#again");
 const scoreCountEltElt = document.querySelector("#scoreCount");
 
-let eKey = ''
+var eKey = ''
 
 
 // initiate the game with chosen theme
@@ -194,19 +195,7 @@ let eKey = ''
 // });
 
 // 检查钱包是否链接
-const updateWalletStatus = () => {
-  // 检查url上search参数是否有publicKey,如果有则说明钱包已经链接
-  const urlParams = new URLSearchParams(window.location.search);
-  const publicKey = urlParams.get('publicKey');
-  const token = urlParams.get('eKey');
-  if (publicKey && token) {
-    const connectBtn = document.querySelector('#connect')
-    connectBtn.remove()
-    document.querySelector('#address').innerText = publicKey
-    eKey = token
-  }
-}
-updateWalletStatus()
+updateWalletStatusForURL()
 
 
 activateTheme('pokemon');
@@ -343,17 +332,9 @@ const hideDialog = () => {
 }
 
 
-const connectWallet = () => {
-  const url = URL + '/authorization'
-  const jumpURL = new window.URL(url);
-  jumpURL.searchParams.append('redirect_uri', location.origin)
-  jumpURL.searchParams.append('game_name', 'Memory')
-  window.open(jumpURL, '_self')
-}
-
 
 document.querySelector('#connect')?.addEventListener('click', function () {
-  connectWallet()
+  connectWalletForURL()
   // 以前的逻辑
   // showDialog();
   // const postMessage = () => {
