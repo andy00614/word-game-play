@@ -5,10 +5,10 @@ LOCAL_DIR="."
 REMOTE_USER="root"
 REMOTE_HOST="8.219.157.52"
 REMOTE_DIR="/root/frontend/fit-java/w3-demo-game-iframe"
-PORT=5003
+PORT=5002
 APP_PORT=80
-DOCKER_IMAGE="w3-game-java-image"
-DOCKER_CONTAINER="w3-game-java-container"
+DOCKER_IMAGE="w3-game-iframe-java-image"
+DOCKER_CONTAINER="w3-game-iframe-java-container"
 
 # 判断远程目录是否存在，不存在则创建
 ssh "$REMOTE_USER@$REMOTE_HOST" "if [ ! -d \"$REMOTE_DIR\" ]; then mkdir -p \"$REMOTE_DIR\"; fi"

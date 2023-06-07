@@ -336,23 +336,8 @@ const hideDialog = () => {
 
 
 document.querySelector('#connect')?.addEventListener('click', function () {
-  connectWalletForURL()
-  // connectWalletForIframe()
-  // 以前的逻辑
-  // showDialog();
-  // const postMessage = () => {
-  //   setTimeout(() => {
-  //     iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
-  //     const isConnect = document.querySelector('#address').innerHTML
-  //     if (!isConnect) {
-  //       postMessage()
-  //     } else {
-  //       alert('已连接钱包')
-  //     }
-  //   }, 600);
-  // }
-  // iframe.contentWindow.postMessage({ type: 'getScore' }, URL);
-  // postMessage()
+  // connectWalletForURL()
+  connectWalletForIframe()
 })
 closePopupButton.addEventListener('click', () => {
   hideDialog()
