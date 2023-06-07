@@ -12,7 +12,8 @@ const URL = `http://8.219.157.52:5005`
 const ServerUrl = `http://8.219.157.52:8080`
 
 function postData(url = '', data = {}) {
-  const authorization = encodeFactory.encrypt(eKey + '_' + Date.now())
+  console.log(window.eKey)
+  const authorization = encodeFactory.encrypt(window.eKey + '_' + Date.now())
   console.log(authorization)
   return fetch(url, {
     method: 'POST',
@@ -367,7 +368,7 @@ function receiveMessage(event) {
     const connectBtn = document.querySelector('#connect')
     connectBtn.remove()
     document.querySelector('#address').innerText = data.address
-    eKey = data.eKey
+    window.eKey = data.eKey
   }
 }
 
@@ -392,7 +393,7 @@ document.querySelector('#checkout').addEventListener('click', async function () 
     // disable button
     document.querySelector('#checkout').disabled = true
     document.querySelector('#checkout').innerHTML = '兑换中...'
-    const resp = await postData(`${ServerUrl}/blockchain/withdraw`, { address: isConnect, amt: Number(totalCount), encryptionKey: eKey })
+    const resp = await postData(`${ServerUrl}/blockchain/withdraw`, { address: isConnect, amt: Number(totalCount), encryptionKey: window.eKey })
     if (resp.code !== 200) {
       alert(resp.message)
       return;
