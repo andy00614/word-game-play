@@ -4,10 +4,12 @@ specifiers:
   crypto-js: ^4.1.1
   jsencrypt: ^3.3.2
   vite: ^4.2.0
+  wd-game-login: 0.0.3
 
 dependencies:
   crypto-js: 4.1.1
   jsencrypt: 3.3.2
+  wd-game-login: 0.0.3
 
 devDependencies:
   vite: 4.2.1
@@ -357,3 +359,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /wd-game-login/0.0.3:
+    resolution: {integrity: sha512-bkxMix0nZWiKC2DNkmZocPN9hh64axuhj/tQG4eL0+BJeXBWD+CRnv8MBTVCyptwmYyaO5XdPtdcO89EAgCezQ==}
+    dev: false

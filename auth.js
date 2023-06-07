@@ -5,7 +5,7 @@ const key = 'andytest123456auth'
 const URL = `http://8.219.157.52:5005`
 // const URL = `http://localhost:3000`
 
-function deCrypto(encryptedMessage) {
+export function deCrypto(encryptedMessage) {
   const bytes = CryptoJS.AES.decrypt(encryptedMessage, key);
   const decryptedMessage = bytes.toString(CryptoJS.enc.Utf8);
   return decryptedMessage
