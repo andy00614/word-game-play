@@ -3,7 +3,7 @@
 # 配置变量
 LOCAL_DIR="."
 REMOTE_USER="root"
-REMOTE_HOST="8.219.157.52"
+REMOTE_HOST="192.168.1.175"
 REMOTE_DIR="/root/frontend/fit-java/w3-demo-game-iframe"
 PORT=5003
 APP_PORT=80

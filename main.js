@@ -1,4 +1,5 @@
-import { connectWalletForIframe, connectWalletForURL, updateWalletStatusForURL } from './auth'
+import { connectWalletForIframe, updateWalletStatusForURL } from './auth'
+import { connectWalletForURL } from 'wd-game-login'
 import './style.css'
 import Jsencrypt from 'jsencrypt'
 
@@ -8,8 +9,8 @@ encodeFactory.setPublicKey('MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtUFa2cEc
 // other themes to add ?
 // bigger memory?
 // const URL = `https://wd-baas.vercel.app`
-const URL = `http://8.219.157.52:5005`
-const ServerUrl = `http://8.219.157.52:8080`
+const URL = `http://wildd.ddns.net:5005`
+const ServerUrl = `http://wildd.ddns.net:8080/wallet`
 
 function postData(url = '', data = {}) {
   console.log(window.eKey)
