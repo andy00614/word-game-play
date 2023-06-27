@@ -15,6 +15,6 @@
   "dependencies": {
     "crypto-js": "^4.1.1",
     "jsencrypt": "^3.3.2",
-    "wd-game-login": "0.0.3"
+    "wd-game-login": "0.0.7"
   }
 }
