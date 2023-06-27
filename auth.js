@@ -20,6 +20,7 @@ export const updateWalletStatusForURL = () => {
     const tokenDecrypted = deCrypto(token);
     const publicKeyDecrypted = deCrypto(publicKey)
     if (!tokenDecrypted || !publicKeyDecrypted) {
+      alert('授权错误')
       return;
     }
     const connectBtn = document.querySelector('#connect')
